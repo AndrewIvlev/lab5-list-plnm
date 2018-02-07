@@ -4,15 +4,25 @@ using namespace std;
 
 
 int main() {
-	TList<int> list;
-	int i = 0;
+	TPolinome P;
+	string strpol;
 
-	while ( cin >> i )
-		list.InsSort(i);
-
-	for(list.Reset(); !list.IsEnd(); list.GoNext() )
-		cout << list.GetCurr() << " ";
-	cout << endl;
+	cin >> strpol;
+	P.ReadPol(strpol);
 
 	return 0;
 }
+
+
+	/*TList<int> list;
+	int i = 0;
+
+	while ( cin >> i )
+	list.InsSort(i);
+
+		for(list.Reset(); !list.IsEnd(); list.GoNext() )
+		cout << list.GetCurr() << " ";
+	cout << endl;
+	cout << 123 / 100 << endl;
+	cout << 123 % 100 / 10 << endl;
+	cout << 123 % 10 << endl;*/

@@ -71,7 +71,7 @@ public:
 	}
 	void InsSort(const T& el) {
 		if ( pFirst == pStop || el > pFirst->val ) { InsFirst(el); return ;}
-		if ( el < pLast->val ){ InsLast(el); return;}
+		if ( el < pLast->val ) { InsLast(el); return;}
 		for ( Reset(); !IsEnd(); GoNext() ) {
 			if ( pCurr->val < el ) { InsCurr(el); return; }
 		}
