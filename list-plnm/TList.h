@@ -24,7 +24,7 @@ public:
 		return pCurr->val;
 	}
 	bool IsEnd() { return pCurr == pStop; }
-	void DelFirst() {
+	virtual void DelFirst() {
 		if ( size == 1 ) {
 			delete pFirst;
 			pFirst = pCurr = pLast = pPrev = pStop;
@@ -35,7 +35,16 @@ public:
 		} size--;
 		if ( pos > 0 ) pos--;
 	}
-	void InsFirst(const T& el) {
+	virtual void DelCurr()
+	{
+		if ( size == 1 )
+			DelFirst();
+		else {
+			if ( pCurr == pLast ) DelLast();
+			else GoNext();
+		}
+	}
+	virtual void InsFirst(const T& el) {
 		TLink<T> *tmp = new TLink<T>;
 		tmp->val = el;
 		tmp->pNext = pFirst;

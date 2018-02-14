@@ -1,14 +1,12 @@
 #include <iostream>
 #include "TList.h"
+#include "THeadList.h"
+#include "TPolinome.h"
 using namespace std;
 
 
 int main() {
 	TPolinome P;
-	string strpol;
-
-	cin >> strpol;
-	P.ReadPol(strpol);
 
 	return 0;
 }
