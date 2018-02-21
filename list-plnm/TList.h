@@ -6,6 +6,7 @@ struct TLink {
 
 template <class T>
 class TList {
+protected:
 	TLink<T> *pFirst, *pPrev, *pCurr, *pStop, *pLast;
 	int size, pos;
 public:
@@ -31,6 +32,18 @@ public:
 		} else {
 			TLink<T> *pOld = pFirst;
 			pFirst = pFirst->pNext;
+			delete pOld;
+		} size--;
+		if ( pos > 0 ) pos--;
+	}
+	void DelLast()
+	{
+		if (size == 1) {
+			delete pFirst;
+			pFirst = pCurr = pLast = pPrev = pStop;
+		} else {
+			TLink<T> *pOld = pLast;
+			pLast = pPrev->pNext;
 			delete pOld;
 		} size--;
 		if ( pos > 0 ) pos--;

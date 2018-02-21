@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 #include "TList.h"
 #include "THeadList.h"
 #include "TPolinome.h"
@@ -7,6 +8,8 @@ using namespace std;
 
 int main() {
 	TPolinome P;
+	cin >> P;
+	cout << P;
 
 	return 0;
 }
