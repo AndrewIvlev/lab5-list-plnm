@@ -1,3 +1,7 @@
+struct TMonom{
+	double coeff;
+	int x, y, z;
+};
 template <class T>
 struct TLink {
 	T val;
@@ -17,9 +21,9 @@ public:
 		pPrev = pStop;
 	}
 	void GoNext() {
-		pPrev = pCurr;
-		pCurr = pCurr->pNext;
-		pos++;
+			pPrev = pCurr;
+			pCurr = pCurr->pNext;
+			pos++;
 	}
 	T GetCurr() {
 		return pCurr->val;

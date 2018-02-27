@@ -1,19 +1,29 @@
 using namespace std;
-struct TMonom{
-	double coeff;
-	int x, y, z;
-};
+ostream& operator<<(ostream &out, TMonom &tm)
+{
+	if( tm.coeff < 0 );
+	else
+	{
+		if ( tm.coeff > 0 ) out << '+';
+		else return out;
+	}
+	out << tm.coeff << "x^"
+		<< tm.x << "y^"
+		<< tm.y << "z^"
+		<< tm.z;
+	return out;
+}
+istream& operator>>(istream &in, TMonom &tm)
+{
+	in >> tm.coeff >> tm.x
+		>> tm.y >> tm.z;
 
+	return in;
+}
 bool operator<(const TMonom &t1, const TMonom &t2)
 {
-	if (t1.x < t2.x) return true;
-	else {
-		if ( t1.y < t2.y ) return true;
-		else { 
-			if ( t2.z < t2.z ) return true;
-		}
-	}
-	return false;
+	if (t1.x * 100 + t1.y * 10 + t2.z < t2.x * 100 + t2.y * 10 * t2.z) return true;
+	else return false;
 }
 
 bool operator==(const TMonom &t1, const TMonom &t2)
@@ -51,8 +61,18 @@ public:
 				return;
 			}
 		}
-	InsLast(tm);
+		InsLast(tm);
 	}
+	TPolinome& operator*(const double c)
+	{
+		for (Reset(); !IsEnd(); GoNext())
+			pCurr->val.coeff *= c;
+		return *this;
+	}
+	/*TPolinome& operator+(TPolinome &q)
+	{
+
+	}*/
 	/*void operator+=(const TPolinome& q){
 		for (q.Reset(); !q.IsEnd(); q.GoNext())
 			InsByOrder(q.pCurr->val);
@@ -60,7 +80,7 @@ public:
 	void operator+=(TPolinome &q){
 		q.Reset();
 		Reset();
-		while ( !q.IsEnd() || !IsEnd() )
+		while ( !q.IsEnd() && !IsEnd() )
 		{
 			if ( pCurr->val == q.pCurr->val)
 			{
@@ -80,16 +100,20 @@ public:
 			{
 				if ( pCurr->val < q.pCurr->val )
 				{
+					GoNext();
+				}
+				else
+				{
 					InsCurr(q.pCurr->val);
 					q.GoNext();
 				}
-				else GoNext();
 			}
 		}
+		if(!q.IsEnd()) InsCurr(q.pCurr->val);
 	}
 	friend istream& operator>>(istream &in, TPolinome &P)
 	{
-		while(	in >> P.pCurr->val.coeff )
+		while( in >> P.pCurr->val.coeff )
 		{
 			in >> P.pCurr->val.x
 				>> P.pCurr->val.y 
@@ -99,13 +123,8 @@ public:
 	}
 	friend ostream& operator<<(ostream &out, TPolinome &P)
 	{
-		for (P.Reset(); !P.IsEnd(); P.GoNext())
-		{
-			out << P.pCurr->val.coeff << 'x^'
-				<< P.pCurr->val.x << 'y^'
-				<< P.pCurr->val.y << 'z^'
-				<< P.pCurr->val.z;
-		}
+		for( P.Reset(); !P.IsEnd(); P.GoNext() )
+			out << P.GetCurr();
 		return out;
 	}
 };
