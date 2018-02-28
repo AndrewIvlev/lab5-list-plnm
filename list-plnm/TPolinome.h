@@ -25,13 +25,11 @@ bool operator<(const TMonom &t1, const TMonom &t2)
 	if (t1.x * 100 + t1.y * 10 + t2.z < t2.x * 100 + t2.y * 10 * t2.z) return true;
 	else return false;
 }
-
 bool operator==(const TMonom &t1, const TMonom &t2)
 {
 	if ( t1.x == t2.x && t1.y == t2.y && t1.z == t2.z ) return true;
 	else return false;
 }
-
 class TPolinome : public THeadList<TMonom>{
 public:
 	TPolinome():THeadList(){
@@ -42,8 +40,15 @@ public:
 	{
 		pHead->val.coeff = 0;
 		pHead->val.z = -1;
-		for(int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 			InsLast(tm[i]);
+	}
+	TPolinome(TPolinome& P)
+	{
+		pHead->val.coeff = 0;
+		pHead->val.z = -1;
+		for (P.Reset(); !P.IsEnd(); P.GoNext())
+			InsLast(P.GetCurr());
 	}
 	void InsByOrder(TMonom& tm){
 		for ( Reset(); !IsEnd(); GoNext() )
@@ -69,10 +74,45 @@ public:
 			pCurr->val.coeff *= c;
 		return *this;
 	}
-	/*TPolinome& operator+(TPolinome &q)
+	TPolinome& operator+(TPolinome &q)
 	{
-
-	}*/
+		Reset();
+		TPolinome S(*this);
+		S.Reset();
+		for (q.Reset(); !q.IsEnd(); q.GoNext())
+			InsByOrder(q.pCurr->val);
+		/*while ( !S.IsEnd() && !IsEnd() )
+		{
+			if ( pCurr->val == S.pCurr->val)
+			{
+				pCurr->val.coeff += S.pCurr->val.coeff;
+				if ( pCurr->val.coeff == 0 )
+				{
+					DelCurr();
+					S.GoNext();
+				} 
+				else 
+				{
+					GoNext();
+					S.GoNext();
+				}
+			} 
+			else 
+			{
+				if ( pCurr->val < S.pCurr->val )
+				{
+					GoNext();
+				}
+				else
+				{
+					InsCurr(S.pCurr->val);
+					S.GoNext();
+				}
+			}
+		}
+		if(!S.IsEnd()) InsCurr(S.pCurr->val);*/
+		return S;
+	}
 	/*void operator+=(const TPolinome& q){
 		for (q.Reset(); !q.IsEnd(); q.GoNext())
 			InsByOrder(q.pCurr->val);

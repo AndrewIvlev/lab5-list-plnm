@@ -71,7 +71,7 @@ public:
 		} else { pPrev = pFirst = tmp; pos++;}
 		size++;
 	}
-	void InsLast(const T& el) {
+	virtual void InsLast(const T& el) {
 		TLink<T> *tmp = new TLink<T>;
 		tmp->val = el;
 		tmp->pNext = pStop;

@@ -17,10 +17,13 @@ void Menu()
 	cout << "5.Exit\n";
 }
 int main(){
-	int r = 0;
-	TPolinome *P, *Q;
-	TMonom *Qmonom, *Pmonom;
-	int Psize = 0, Qsize = 0;
+	char ch='q';
+	int c = 0, r = 0;
+	TPolinome P, Q, S;
+	int Psize = 50, Qsize = 50;
+	TMonom *Qmonom = new TMonom[Qsize];
+	TMonom *Pmonom = new TMonom[Psize];;
+
 	while(r!=5){
 		Menu();
 		cin >> r;
@@ -29,22 +32,26 @@ int main(){
 				cout << "Enter Size of Polynomial P: ";
 				cin >> Psize;
 
-				Pmonom = new TMonom[Psize];
-
 				cout << "Initialize Polinome P\nP(x)=";
 				for (int i = 0; i < Psize; i++)
 					cin >> Pmonom[i];
+				P.Reset();
+				for (int i = 0; !P.IsEnd(); P.GoNext()){
+					P.InsByOrder(Pmonom[i]);
+					i++;
+				}
 
 				cout << "Enter Size of Polynomial Q: ";
-				cin >> Psize;
-
-				Qmonom = new TMonom[Qsize];
+				cin >> Qsize;
 
 				cout << "Initialize Polinome Q\nQ(x)=";
 				for (int i = 0; i < Qsize; i++)
 					cin >> Qmonom[i];
-				Q(Qmonom, Qsize);
-				P(Pmonom, Psize);
+				Q.Reset();
+				for (int i = 0; !Q.IsEnd(); Q.GoNext()){
+					Q.InsByOrder(Qmonom[i]);
+					i++;
+				}
 				break;
 			case 1: system("cls");
 				for( P.Reset(); !P.IsEnd(); P.GoNext() )
@@ -66,9 +73,17 @@ int main(){
 					P.InsByOrder(Pmonom[0]);
 				}
 				break;
-			case 3: system("cls");
+			case 3: system("cls"); cout << "Enter const: ";
+				cin >> c;
+				P = P * c;
+				for( P.Reset(); !P.IsEnd(); P.GoNext() )
+					cout << P.GetCurr();
+				cout << endl;
 				break;
-			case 4: system("cls"); 
+			case 4: system("cls"); 	S = P + Q;
+				for( S.Reset(); !S.IsEnd(); S.GoNext() )
+					cout << S.GetCurr();
+				cout << endl;
 				break;
 			case 5: break; break;
 			default: system("cls"); r = -1;
