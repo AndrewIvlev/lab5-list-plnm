@@ -1,4 +1,4 @@
-struct TMonom{
+struct TMonom {
 	double coeff;
 	int x, y, z;
 };
@@ -14,42 +14,70 @@ protected:
 	TLink<T> *pFirst, *pPrev, *pCurr, *pStop, *pLast;
 	int size, pos;
 public:
-	TList() { pFirst = pCurr = pLast = pStop = NULL; pos = -1; size = 0; }
-	void Reset() {
+	TList()
+	{ 
+		pFirst = pCurr = pLast = pStop = NULL;
+		size = 0; 
+		pos = -1;
+	}
+	void Reset()
+	{
 		pCurr = pFirst;
 		pos = 0;
 		pPrev = pStop;
 	}
-	void GoNext() {
-			pPrev = pCurr;
-			pCurr = pCurr->pNext;
-			pos++;
+	void GoNext()
+	{
+		pPrev = pCurr;
+		pCurr = pCurr->pNext;
+		pos++;
 	}
-	T GetCurr() {
+	T GetCurr()
+	{
 		return pCurr->val;
 	}
-	bool IsEnd() { return pCurr == pStop; }
-	virtual void DelFirst() {
-		if ( size == 1 ) {
+	bool IsEnd()
+	{
+		return (pCurr == pStop || pos >= size);
+	}
+	int GetSize()
+	{
+		return size;
+	}
+	int GetPos()
+	{
+		return pos;
+	}
+	virtual void DelFirst()
+	{
+		if ( size == 1 )
+		{
 			delete pFirst;
 			pFirst = pCurr = pLast = pPrev = pStop;
-		} else {
+		}
+		else
+		{
 			TLink<T> *pOld = pFirst;
 			pFirst = pFirst->pNext;
 			delete pOld;
-		} size--;
+		}
+		size--;
 		if ( pos > 0 ) pos--;
 	}
 	void DelLast()
 	{
-		if (size == 1) {
+		if (size == 1)
+		{
 			delete pFirst;
 			pFirst = pCurr = pLast = pPrev = pStop;
-		} else {
+		}
+		else 
+		{
 			TLink<T> *pOld = pLast;
 			pLast = pPrev->pNext;
 			delete pOld;
-		} size--;
+		}
+		size--;
 		if ( pos > 0 ) pos--;
 	}
 	virtual void DelCurr()
@@ -61,31 +89,49 @@ public:
 			else GoNext();
 		}
 	}
-	virtual void InsFirst(const T& el) {
+	virtual void InsFirst(const T& el)
+	{
 		TLink<T> *tmp = new TLink<T>;
 		tmp->val = el;
 		tmp->pNext = pFirst;
-		if ( pFirst == pStop ) {
+		if ( pFirst == pStop )
+		{
 			pFirst = pLast = pCurr = tmp;
-			tmp->pNext = pStop;
-		} else { pPrev = pFirst = tmp; pos++;}
+			pos = 0;
+		}
+		else
+		{
+			pFirst = tmp;
+			pos++;
+		}
 		size++;
 	}
-	virtual void InsLast(const T& el) {
+	virtual void InsLast(const T& el)
+	{
 		TLink<T> *tmp = new TLink<T>;
 		tmp->val = el;
 		tmp->pNext = pStop;
-		if ( pFirst == pStop ) {
+		if ( pFirst == pStop )
+		{
 			pFirst = pLast = pCurr = tmp;
 			pos = 0;
-		} else { pLast->pNext = tmp; pLast = tmp; }
+		}
+		else
+		{
+			pLast->pNext = tmp;
+			pLast = tmp;
+			pos = size - 1;
+		}
 		size++;
 	}
-	void  InsCurr(const T& el) {
+	void  InsCurr(const T& el)
+	{
 		if ( pCurr == pFirst ) InsFirst(el);
-		else {
+		else
+		{
 			if ( pCurr == pStop ) InsLast(el);
-			else {
+			else
+			{
 				TLink<T> *tmp = new TLink<T>;
 				tmp->val = el;
 				tmp->pNext = pCurr;
@@ -95,7 +141,8 @@ public:
 			}
 		}
 	}
-	void InsSort(const T& el) {
+	void InsSort(const T& el)
+	{
 		if ( pFirst == pStop || el > pFirst->val ) { InsFirst(el); return ;}
 		if ( el < pLast->val ) { InsLast(el); return;}
 		for ( Reset(); !IsEnd(); GoNext() ) {

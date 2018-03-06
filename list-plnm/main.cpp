@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <string>
 #include <cmath>
 #include "TList.h"
 #include "THeadList.h"
@@ -8,84 +7,96 @@ using namespace std;
 
 void Menu()
 {
+	cout << "----------------\n";
 	cout << "****POLINOME****\n";
-	cout << "0.Initialization\n";
-	cout << "1.Polynom Out\n";
-	cout << "2.Add Monom\n";
-	cout << "3.P*const\n";
-	cout << "4.P+Q\n";
-	cout << "5.Exit\n";
+	cout << "----------------\n";
+	cout << "1.Initialization\n";
+	cout << "2.Polynom Out\n";
+	cout << "3.Add Monom\n";
+	cout << "4.P*const\n";
+	cout << "5.P + Q\n";
+	cout << "6.Exit\n";
 }
 int main(){
 	char ch='q';
 	int c = 0, r = 0;
-	TPolinome P, Q, S;
-	int Psize = 50, Qsize = 50;
-	TMonom *Qmonom = new TMonom[Qsize];
-	TMonom *Pmonom = new TMonom[Psize];;
+	TPolinome P, Q;
+	int Psize = 0, Qsize = 0;
+	TMonom *Qmonom = new TMonom[66];
+	TMonom *Pmonom = new TMonom[66];;
 
-	while(r!=5){
+	while (r != 6)
+	{
 		Menu();
 		cin >> r;
 		switch(r){
-			case 0: system("cls");
+			case 1: system("cls");
+
+				P.ClearTPolinome(Psize);
+				Q.ClearTPolinome(Qsize);
+
 				cout << "Enter Size of Polynomial P: ";
 				cin >> Psize;
-
 				cout << "Initialize Polinome P\nP(x)=";
 				for (int i = 0; i < Psize; i++)
 					cin >> Pmonom[i];
-				P.Reset();
-				for (int i = 0; !P.IsEnd(); P.GoNext()){
-					P.InsByOrder(Pmonom[i]);
-					i++;
-				}
+				for (int i = 0; i < Psize; i++)
+					P.InsLast(Pmonom[i]);
 
 				cout << "Enter Size of Polynomial Q: ";
 				cin >> Qsize;
-
 				cout << "Initialize Polinome Q\nQ(x)=";
 				for (int i = 0; i < Qsize; i++)
 					cin >> Qmonom[i];
-				Q.Reset();
-				for (int i = 0; !Q.IsEnd(); Q.GoNext()){
-					Q.InsByOrder(Qmonom[i]);
-					i++;
-				}
+				for (int i = 0; i < Qsize; i++)
+					Q.InsLast(Qmonom[i]);
 				break;
-			case 1: system("cls");
-				for( P.Reset(); !P.IsEnd(); P.GoNext() )
-					cout << P.GetCurr();
-				cout << endl;
-				for( Q.Reset(); !Q.IsEnd(); Q.GoNext() )
-					cout << Q.GetCurr();
-				cout << endl;
+
+			case 2: system("cls");
+				cout << P << endl
+					<< Q << endl;
 				break;
-			case 2: system("cls"); cout << "Add to Q or to P?";
-				if (cin >> ch == "q"){
+
+			case 3: system("cls"); cout << "Add to Q or to P?\nInput 'q' if Q, 'p' if P\n";
+				cin >> ch;
+				if (ch == 'q')
+				{
 					cout << "Enter Monom: ";
 					cin >> Qmonom[0];
-					Q.InsByOrder(Qmonom[0]);
+					Q += Qmonom[0];
 				}
-				else {
+				else
+				{
 					cout << "Enter Monom: ";
 					cin >> Pmonom[0];
-					P.InsByOrder(Pmonom[0]);
+					P += Pmonom[0];
 				}
 				break;
-			case 3: system("cls"); cout << "Enter const: ";
+
+			case 4: system("cls"); cout << "Multiply P or Q??\nInput 'q' if Q, 'p' if P\n";
+				cin >> ch;
+				cout << "Enter const: ";
 				cin >> c;
-				P = P * c;
-				for( P.Reset(); !P.IsEnd(); P.GoNext() )
-					cout << P.GetCurr();
-				cout << endl;
+				if (ch == 'q')
+				{
+					Q *= c;
+					cout << Q << endl;
+				}
+				else
+				{
+					P *= c;
+					cout << P << endl;
+				}
+
 				break;
-			case 4: system("cls"); 	S = P + Q;
-				for( S.Reset(); !S.IsEnd(); S.GoNext() )
-					cout << S.GetCurr();
-				cout << endl;
+
+			case 5: system("cls");
+				P += Q;
+				cout << P << endl;
 				break;
-			case 5: break; break;
+
+			case 6: break;
+
 			default: system("cls"); r = -1;
 				cout << "Invalid Entry\n"; break;
 		}
