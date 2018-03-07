@@ -19,7 +19,7 @@ public:
 		TList::InsFirst(el);
 		pHead->pNext = pFirst;
 	}
-	void DelFirst()
+/*	void DelFirst()
 	{
 		TList::DelFirst();
 		pHead->pNext = pFirst;
@@ -28,5 +28,5 @@ public:
 	{
 		TList::DelCurr();
 		pHead->pNext = pFirst;
-	}
+	}							*/
 };

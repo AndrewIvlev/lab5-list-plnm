@@ -64,7 +64,7 @@ public:
 		size--;
 		if ( pos > 0 ) pos--;
 	}
-	void DelLast()
+	virtual void DelLast()
 	{
 		if (size == 1)
 		{
@@ -83,9 +83,16 @@ public:
 	virtual void DelCurr()
 	{
 		if ( size == 1 )
+		{
 			DelFirst();
+			size--;
+		}
 		else {
-			if ( pCurr == pLast ) DelLast();
+			if ( pCurr == pLast )
+			{
+				DelLast();
+				size--;
+			}
 			else GoNext();
 		}
 	}

@@ -13,17 +13,17 @@ void Menu()
 	cout << "1.Initialization\n";
 	cout << "2.Polynom Out\n";
 	cout << "3.Add Monom\n";
-	cout << "4.P*const\n";
+	cout << "4.Mult on const\n";
 	cout << "5.P + Q\n";
 	cout << "6.Exit\n";
 }
 int main(){
 	char ch='q';
 	int c = 0, r = 0;
-	TPolinome P, Q;
+	TPolinome P, Q, S;
 	int Psize = 0, Qsize = 0;
 	TMonom *Qmonom = new TMonom[66];
-	TMonom *Pmonom = new TMonom[66];;
+	TMonom *Pmonom = new TMonom[66];
 
 	while (r != 6)
 	{
@@ -32,8 +32,8 @@ int main(){
 		switch(r){
 			case 1: system("cls");
 
-				P.ClearTPolinome(Psize);
-				Q.ClearTPolinome(Qsize);
+				P.ClearTPolinome();
+				Q.ClearTPolinome();
 
 				cout << "Enter Size of Polynomial P: ";
 				cin >> Psize;
@@ -41,7 +41,7 @@ int main(){
 				for (int i = 0; i < Psize; i++)
 					cin >> Pmonom[i];
 				for (int i = 0; i < Psize; i++)
-					P.InsLast(Pmonom[i]);
+					P += Pmonom[i];
 
 				cout << "Enter Size of Polynomial Q: ";
 				cin >> Qsize;
@@ -49,12 +49,12 @@ int main(){
 				for (int i = 0; i < Qsize; i++)
 					cin >> Qmonom[i];
 				for (int i = 0; i < Qsize; i++)
-					Q.InsLast(Qmonom[i]);
+					Q += Qmonom[i];
 				break;
 
 			case 2: system("cls");
-				cout << P << endl
-					<< Q << endl;
+				cout << "P(x)=" << P << endl
+					<< "Q(x)=" << Q << endl;
 				break;
 
 			case 3: system("cls"); cout << "Add to Q or to P?\nInput 'q' if Q, 'p' if P\n";
@@ -70,6 +70,7 @@ int main(){
 					cout << "Enter Monom: ";
 					cin >> Pmonom[0];
 					P += Pmonom[0];
+
 				}
 				break;
 
@@ -91,8 +92,11 @@ int main(){
 				break;
 
 			case 5: system("cls");
-				P += Q;
-				cout << P << endl;
+				S = P;
+				S += Q;
+				cout << "P(x)=" << P << endl
+					<< "Q(x)=" << Q << endl;
+				cout << "S(x)=P(x)+Q(x)\nS(x)=" << S << endl;
 				break;
 
 			case 6: break;

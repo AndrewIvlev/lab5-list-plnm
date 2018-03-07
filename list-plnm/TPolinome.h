@@ -1,16 +1,15 @@
 using namespace std;
 ostream& operator<<(ostream &out, TMonom &tm)
 {
-	if( tm.coeff < 0 );
+	if ( tm.coeff > 0 ) out << '+';
+	if (tm.coeff == 0) return out;
 	else
 	{
-		if ( tm.coeff > 0 ) out << '+';
-		else return out;
+		out << tm.coeff;
+		if (tm.x != 0) out << "x^" << tm.x;
+		if (tm.y != 0) out << "y^" << tm.y;
+		if (tm.z != 0) out << "z^" << tm.z;
 	}
-	out << tm.coeff << "x^"
-		<< tm.x << "y^"
-		<< tm.y << "z^"
-		<< tm.z;
 	return out;
 }
 istream& operator>>(istream &in, TMonom &tm)
@@ -57,19 +56,16 @@ public:
 		for (P.Reset(); !P.IsEnd(); P.GoNext())
 			InsLast(P.GetCurr());
 	}
-	void ClearTPolinome(const int _size)
+	void ClearTPolinome()
 	{
-		for (int i = 0; i < _size; i++)
+		for (int i = 0; i < GetSize(); i++)
 			DelFirst();
 	}
 	TPolinome& operator=(TPolinome& P)
 	{
-		pHead->val.coeff = 0;
-		pHead->val.x = 0;
-		pHead->val.y = 0;
-		pHead->val.z = -1;
+		ClearTPolinome();
 		for (P.Reset(); !P.IsEnd(); P.GoNext())
-			InsLast(P.GetCurr());
+			InsLast(P.pCurr->val);
 		return *this;
 	}
 	void InsByOrder(TMonom& tm){
@@ -103,49 +99,6 @@ public:
 		for (Reset(); !IsEnd(); GoNext())
 			pCurr->val.coeff *= c;
 	}
-	TPolinome& operator+(TPolinome &q)
-	{
-		Reset();
-		TPolinome S(*this);
-		S.Reset();
-		for (q.Reset(); !q.IsEnd(); q.GoNext())
-			InsByOrder(q.pCurr->val);
-		/*while ( !S.IsEnd() && !IsEnd() )
-		{
-			if ( pCurr->val == S.pCurr->val)
-			{
-				pCurr->val.coeff += S.pCurr->val.coeff;
-				if ( pCurr->val.coeff == 0 )
-				{
-					DelCurr();
-					S.GoNext();
-				} 
-				else 
-				{
-					GoNext();
-					S.GoNext();
-				}
-			} 
-			else 
-			{
-				if ( pCurr->val < S.pCurr->val )
-				{
-					GoNext();
-				}
-				else
-				{
-					InsCurr(S.pCurr->val);
-					S.GoNext();
-				}
-			}
-		}
-		if(!S.IsEnd()) InsCurr(S.pCurr->val);*/
-		return S;
-	}
-	/*void operator+=(const TPolinome& q){
-		for (q.Reset(); !q.IsEnd(); q.GoNext())
-			InsByOrder(q.pCurr->val);
-	}*/
 	void operator+=(TPolinome &q)
 	{
 		q.Reset();
@@ -179,7 +132,8 @@ public:
 				}
 			}
 		}
-		if(!q.IsEnd()) InsCurr(q.pCurr->val);
+		if(!q.IsEnd())
+			InsCurr(q.pCurr->val);
 	}
 	void operator+=(TMonom &tm)
 	{
