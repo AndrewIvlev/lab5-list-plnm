@@ -32,8 +32,8 @@ int main(){
 		switch(r){
 			case 1: system("cls");
 
-				P.ClearTPolinome();
-				Q.ClearTPolinome();
+				//P.ClearTPolinome();
+				//Q.ClearTPolinome();
 
 				cout << "Enter Size of Polynomial P: ";
 				cin >> Psize;
@@ -92,7 +92,7 @@ int main(){
 				break;
 
 			case 5: system("cls");
-				S = P;
+				//S = P;
 				S += Q;
 				cout << "P(x)=" << P << endl
 					<< "Q(x)=" << Q << endl;

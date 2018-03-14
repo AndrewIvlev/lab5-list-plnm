@@ -38,7 +38,7 @@ public:
 	}
 	bool IsEnd()
 	{
-		return (pCurr == pStop || pos >= size);
+		return pCurr == pStop;
 	}
 	int GetSize()
 	{
@@ -113,7 +113,7 @@ public:
 		}
 		size++;
 	}
-	virtual void InsLast(const T& el)
+	void InsLast(const T& el)
 	{
 		TLink<T> *tmp = new TLink<T>;
 		tmp->val = el;

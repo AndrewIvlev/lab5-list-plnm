@@ -47,18 +47,9 @@ public:
 		for (int i = 0; i < size; i++)
 			InsLast(tm[i]);
 	}
-	TPolinome(TPolinome& P)
-	{
-		pHead->val.coeff = 0;
-		pHead->val.x = 0;
-		pHead->val.y = 0;
-		pHead->val.z = -1;
-		for (P.Reset(); !P.IsEnd(); P.GoNext())
-			InsLast(P.GetCurr());
-	}
 	void ClearTPolinome()
 	{
-		for (int i = 0; i < GetSize(); i++)
+		for ( Reset(); !IsEnd(); GoNext() )
 			DelFirst();
 	}
 	TPolinome& operator=(TPolinome& P)
@@ -68,7 +59,8 @@ public:
 			InsLast(P.pCurr->val);
 		return *this;
 	}
-	void InsByOrder(TMonom& tm){
+	void InsByOrder(TMonom& tm)
+	{
 		for ( Reset(); !IsEnd(); GoNext() )
 		{
 			if ( this->pCurr->val == tm )
@@ -85,8 +77,8 @@ public:
 				InsCurr(tm);
 				return;
 			}
-			InsLast(tm);
 		}
+		InsLast(tm);
 	}
 	TPolinome& operator*(const double c)
 	{
@@ -100,6 +92,11 @@ public:
 			pCurr->val.coeff *= c;
 	}
 	void operator+=(TPolinome &q)
+	{
+		for (q.Reset(); !q.IsEnd();q.GoNext())
+			InsByOrder(q.pCurr->val);
+	}
+	/*void operator+=(TPolinome &q)
 	{
 		q.Reset();
 		Reset();
@@ -134,7 +131,7 @@ public:
 		}
 		if(!q.IsEnd())
 			InsCurr(q.pCurr->val);
-	}
+	}*/
 	void operator+=(TMonom &tm)
 	{
 		Reset();
@@ -171,13 +168,13 @@ public:
 	}
 	friend ostream& operator<<(ostream &out, TPolinome &P)
 	{
-		if(P.pFirst->val.coeff == 0)
+		/*if(P.pFirst->val.coeff == 0)
 			out << "0";
 		else
-		{
+		{*/
 			for( P.Reset(); !P.IsEnd(); P.GoNext() )
 				out << P.GetCurr();
-		}
+		//}
 		return out;
 	}
 };
